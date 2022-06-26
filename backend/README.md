@@ -94,20 +94,20 @@ You will need to provide detailed documentation of your API endpoints including 
 
 API REFERENCE
 
-GET \categories
-This is a fetch request which returns a dictionary available categories
-Request parameters: none
-Example of response:
-{
-"categories": {
-"1": "Science",
-"2": "Art",
-"3": "Geography",
-"4": "History",
-"5": "Entertainment",
-"6": "Sports"
-},
-"success": true
+ GET \categories
+ This is a fetch request which returns a dictionary available categories
+ Request parameters: none
+ Example of response:
+ {
+   "categories": {
+                    "1": "Science",
+					"2": "Art",
+					"3": "Geography",
+					"4": "History",
+					"5": "Entertainment",
+					"6": "Sports"
+				},
+				"success": true
 }
 
 GET \questions?page=<page_number>
