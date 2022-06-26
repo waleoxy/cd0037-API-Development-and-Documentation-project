@@ -1,10 +1,12 @@
 import os
-from sqlalchemy import Column, String, Integer, create_engine
+from sqlalchemy import Column, String, Integer, create_engine, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.orm import relationship
 import json
 
 database_name = 'trivia'
-database_path = 'postgres://{}/{}'.format('localhost:5432', database_name)
+database_path = 'postgresql://{}/{}'.format('localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -18,6 +20,7 @@ def setup_db(app, database_path=database_path):
     db.app = app
     db.init_app(app)
     db.create_all()
+    # Migrate(app,db)
 
 """
 Question
@@ -31,7 +34,7 @@ class Question(db.Model):
     answer = Column(String)
     category = Column(String)
     difficulty = Column(Integer)
-
+    
     def __init__(self, question, answer, category, difficulty):
         self.question = question
         self.answer = answer
@@ -44,6 +47,12 @@ class Question(db.Model):
 
     def update(self):
         db.session.commit()
+    
+    def rollback(self):
+        db.session.rollback()
+
+    def close(self):
+        db.session.close()
 
     def delete(self):
         db.session.delete(self)
@@ -67,12 +76,15 @@ class Category(db.Model):
 
     id = Column(Integer, primary_key=True)
     type = Column(String)
+    image_src = Column(String)
 
-    def __init__(self, type):
+    def __init__(self, type, image_src):
         self.type = type
+        self.image_src = image_src
 
     def format(self):
         return {
             'id': self.id,
-            'type': self.type
+            'type': self.type,
+            'image_src': self.image_src
             }

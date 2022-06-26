@@ -90,6 +90,149 @@ You will need to provide detailed documentation of your API endpoints including 
 }
 ```
 
+<!-- API REFERENCE -->
+
+API REFERENCE
+
+GET \categories
+This is a fetch request which returns a dictionary available categories
+Request parameters: none
+Example of response:
+{
+"categories": {
+"1": "Science",
+"2": "Art",
+"3": "Geography",
+"4": "History",
+"5": "Entertainment",
+"6": "Sports"
+},
+"success": true
+}
+
+GET \questions?page=<page_number>
+This is a fetch request which returns paginated dictionary of questions irrespective of the category.
+
+Request parameters (optional): page of type int
+Example response:
+"categories": {
+"1": "Science",
+"2": "Art",
+"3": "Geography",
+"4": "History",
+"5": "Entertainment",
+"6": "Sports"
+},
+"current_category": null,
+"questions": [
+{
+"question": "The smallest unit of life is?"
+"answer": "Cell",
+"category": 1,
+"difficulty": 1,
+"id": 22,
+},
+{
+"id": 23,
+"question": "The main actor of the movie "Pirates of the Caribeans is?"
+"answer": "Johnny Depp",
+"category": 2,
+"difficulty": 3,
+}
+],
+"success": true,
+"total_questions": 2
+}
+
+DELETE /questions/<question_id>
+
+This is a request to delete an existing question from the database
+
+Request arguments: question_id:int
+Example response:
+{
+"deleted": "2",
+"success": true
+}
+
+POST /questions
+This is a request tp add a new question to the database
+
+Request body: {
+question:string,
+answer:string,
+difficulty:int,
+category:string
+}
+Example response:
+{
+"created": 23,
+"success": true
+}
+
+POST /questions/search
+This fetches every question whose substring matches the search term
+
+Request body: {searchTerm:string}
+Example response:
+{
+"current_category": null,
+"questions": [
+{
+"answer": "mitochondrion",
+"category": 1,
+"difficulty": 3,
+"id": 20,
+"question": "What is the 'Power-house' of a cell?"
+}
+],
+"success": true,
+"total_questions": 1
+}
+
+GET /categories/<int:category_id>/questions
+
+This fetches adictionary of questions of a given category
+
+Request argument: category_id:int
+Example response:
+{
+"current_category": 1,
+"questions": [
+{
+"answer": "1914",
+"category": 4,
+"difficulty": 4,
+"id": 4,
+"question": "The year of the amalgamation of North and South Nigeria"
+},
+{
+"answer": "Lake Victoria",
+"category": 3,
+"difficulty": 2,
+"id": 1,
+"question": "What is the largest lake in Africa?"
+},
+],
+"success": true,
+"total_questions": 2
+}
+POST /quizzes
+This randomly fetch one question at a time from a category, not including previously asked questions.
+
+Request body: {previous_questions: [], quiz_category: {id:int, type:string}}
+Example response:
+{
+"question": {
+"answer": "George Washington Carver",
+"category": 4,
+"difficulty": 2,
+"id": 8,
+"question": "Who invented Peanut Butter?"
+},
+"success": true
+}
+
 ## Testing
 
 Write at least one test for the success and at least one error behavior of each endpoint using the unittest library.
